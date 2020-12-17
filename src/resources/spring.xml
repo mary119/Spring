@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:context="http://www.springframework.org/schema/context"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation=" http://www.springframework.org/schema/beans 
+	http://www.springframework.org/schema/beans/spring-beans.xsd
+	http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd">
+
+    <import resource="datasource.xml"/>	
+	<bean class="com.xworkz.spring.dao.ElectionResultsDAOImpl" id="electionDAOImpl">
+	<constructor-arg ref="lsfb"></constructor-arg>
+	</bean>
+	
+	<bean class="org.springframework.orm.hibernate4.LocalSessionFactoryBean" id ="lsfb">
+	<property name="dataSource" ref="driverManagerDatasource"></property>   
+    <property name="hibernateProperties">
+	         <props>
+	            <prop key="hibernate.show_sql">true</prop>
+                <prop key="hibernate.dialect">org.hibernate.dialect.MySQL5Dialect </prop>
+				<prop key="hibernate.hbm2ddl.auto">update</prop>       
+	         </props>
+	</property>
+	<property name="annotatedClasses">
+	<list>
+	 <value>com.xworkz.spring.dto.ElectionResultsDTO</value>
+	</list>
+	</property>
+	</bean>
+	
+	<bean class="com.xworkz.spring.service.ElectionServiceImpl" id="electioServiceImpl">
+	<constructor-arg ref="electionDAOImpl"></constructor-arg>
+	</bean>
+	
+	</beans>
