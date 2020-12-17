@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:context="http://www.springframework.org/schema/context"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation=" http://www.springframework.org/schema/beans 
+	http://www.springframework.org/schema/beans/spring-beans.xsd
+	http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd">
+	
+ 	<import resource="datasource.xml"/>  
+	<bean class="com.xworkz.springhibernate.dao.VaccineDAO" id="vaccineDAO">
+		<constructor-arg ref="lsfb"/>
+	</bean>
+
+
+	<bean class="org.springframework.orm.hibernate5.LocalSessionFactoryBean"
+		id="lsfb">
+<!-- 	<property name="configLocations" value="resources/hibernate.cfg.xml" />    -->
+   
+       <property name="hibernateProperties">
+       <props>
+<!--                 <prop key="hibernate.connection.driver_class">com.mysql.cj.jdbc.Driver</prop> -->
+<!-- 				<prop key="hibernate.connection.url">jdbc:mysql://localhost:3306/spring_example</prop> -->
+<!-- 				<prop key="hibernate.connection.username">root</prop> -->
+<!-- 				<prop key="hibernate.connection.password">rootmary</prop>  -->
+                <prop key="hibernate.show_sql">true</prop>
+                <prop key="hibernate.dialect">org.hibernate.dialect.MySQL5Dialect </prop>
+				<prop key="hibernate.hbm2ddl.auto">update</prop>       
+       
+       </props>
+       </property>
+	   <property name="annotatedClasses">
+			<list>
+				<value>com.xworkz.springhibernate.dto.VaccineDTO</value>
+			</list>
+
+
+		</property> 
+ 	<property name="dataSource" ref="driverManagerDatasource"></property>   
+	</bean>
+	<bean class="com.xworkz.springhibernate.service.ServiceDAO" id="serviceDAO">
+	<constructor-arg ref="vaccineDAO"></constructor-arg>
+	</bean>
+
+</beans>
